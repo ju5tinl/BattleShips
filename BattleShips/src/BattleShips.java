@@ -1,8 +1,8 @@
 import java.util.*;
 
 public class BattleShips {
-    public static int numRows = 10;
-    public static int numCols = 10;
+    public static int numRows = 5;
+    public static int numCols = 5;
     public static int playerShips;
     public static int computerShips;
     public static String[][] grid = new String[numRows][numCols];
@@ -24,7 +24,7 @@ public class BattleShips {
         //Step 4 Battle
         do {
             Battle();
-        }while(BattleShips.playerShips != 0 && BattleShips.computerShips != 0);
+        } while(BattleShips.playerShips != 0 && BattleShips.computerShips != 0);
 
         //Step 5 - Game over
         gameOver();
@@ -35,7 +35,7 @@ public class BattleShips {
         System.out.print("  ");
         for(int i = 0; i < numCols; i++)
             System.out.print(i);
-        System.out.println();
+            System.out.println();
 
         //Middle section of Ocean Map
         for(int i = 0; i < grid.length; i++) {
@@ -55,7 +55,7 @@ public class BattleShips {
         System.out.print("  ");
         for(int i = 0; i < numCols; i++)
             System.out.print(i);
-        System.out.println();
+            System.out.println();
     }
 
     public static void deployPlayerShips(){
@@ -134,7 +134,7 @@ public class BattleShips {
                     System.out.println("Oh no, you sunk your own ship :(");
                     grid[x][y] = "x";
                     --BattleShips.playerShips;
-                    ++BattleShips.computerShips;
+
                 }
                 else if (grid[x][y] == " ") {
                     System.out.println("Sorry, you missed");
@@ -149,7 +149,8 @@ public class BattleShips {
     public static void computerTurn(){
         System.out.println("\nCOMPUTER'S TURN");
         //Guess co-ordinates
-        int x = -1, y = -1;
+        int x = 0;
+        int y = 0;
         do {
             x = (int)(Math.random() * 10);
             y = (int)(Math.random() * 10);
@@ -161,11 +162,11 @@ public class BattleShips {
                     System.out.println("The Computer sunk one of your ships!");
                     grid[x][y] = "x";
                     --BattleShips.playerShips;
-                    ++BattleShips.computerShips;
                 }
                 else if (grid[x][y] == "x") {
                     System.out.println("The Computer sunk one of its own ships");
                     grid[x][y] = "!";
+                    --BattleShips.computerShips;
                 }
                 else if (grid[x][y] == " ") {
                     System.out.println("Computer missed");
@@ -183,7 +184,7 @@ public class BattleShips {
             System.out.println("Hooray! You won the battle :)");
         else
             System.out.println("Sorry, you lost the battle");
-        System.out.println();
+            System.out.println();
     }
 
     public static void printOceanMap(){
@@ -192,7 +193,7 @@ public class BattleShips {
         System.out.print("  ");
         for(int i = 0; i < numCols; i++)
             System.out.print(i);
-        System.out.println();
+            System.out.println();
 
         //Middle section of Ocean Map
         for(int x = 0; x < grid.length; x++) {
@@ -209,6 +210,6 @@ public class BattleShips {
         System.out.print("  ");
         for(int i = 0; i < numCols; i++)
             System.out.print(i);
-        System.out.println();
+            System.out.println();
     }
 }
