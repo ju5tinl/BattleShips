@@ -1,4 +1,5 @@
-import java.util.*;
+/*
+mport java.util.*;
 
 public class BattleShips {
     public static int numRows = 5;
@@ -213,3 +214,5 @@ public class BattleShips {
             System.out.println();
     }
 }
+
+*/
