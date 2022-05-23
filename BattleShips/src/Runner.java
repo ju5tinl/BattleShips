@@ -8,18 +8,22 @@ public class Runner {
         String name = "";
         boolean nGame = true;
         System.out.println("Welcome to BattleShips");
-        System.out.println("Would you like to (l)oad game or start a (n)ew game?");
+        System.out.println("Would you like to (s)how leaderboard or start a (n)ew game?");
         System.out.println();
         String option = s.nextLine();
-        if(option.toLowerCase().equals("l")){
+        if(option.toLowerCase().equals("s")){
             try{
                 File f = new File("src/game.data");
                 Scanner l = new Scanner(f);
-                int line = 1;
+                System.out.println("LeaderBoard");
+                while(l.hasNextLine()){
+                    String data = s.nextLine();
+                    System.out.println("Admiral" + data);
+                }
 
             }
             catch (FileNotFoundException e){
-                System.out.println("There are no games to load.");
+                System.out.println("There are no games to show.");
                 System.out.println("Starting new game...");
                 option = "n";
             }
