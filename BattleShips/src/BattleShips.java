@@ -1,5 +1,5 @@
 /*
-mport java.util.*;
+import java.util.*;
 
 public class BattleShips {
     public static int numRows = 5;
