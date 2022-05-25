@@ -7,6 +7,7 @@ public class PlayBattleShips {
         Scanner s = new Scanner(System.in);
         String name = "";
         String mode = "";
+        boolean cheat = false;
         ArrayList<String> leaderboard = new ArrayList<String>();
         System.out.println("Welcome to BattleShips");
         System.out.print("Would you like to (s)how leaderboard or start a (n)ew game? ");
@@ -34,13 +35,26 @@ public class PlayBattleShips {
             System.out.print("Hello Admiral what is your name? ");
             Scanner in = new Scanner(System.in);
             name = in.nextLine();
-            System.out.print("Hello Admiral " + name + " would you like to receive the information from our spy? (Cheat Mode" );
+            System.out.print("Hello Admiral " + name + " would you like to receive the information from our spy? (Cheat Mode) ");
             mode = in.nextLine();
+            Player p = new Player(name);
+            if(mode.toLowerCase().equals("yes")){
+                cheat = true;
+            }
+            else{
+                cheat = false;
+            }
+            BattleShips b = new BattleShips(cheat);
+            b.createOceanMap();
+            b.deployPlayerShips();
+            b.deployComputerShips();
+            do {
+                b.Battle();
+            } while(b.getPlayerShips() != 0 && b.getComputerShips() != 0);
+            b.gameOver();
 
         }
-        Player p = new Player(name);
-        //generate map
-        //ask to place
+
 
 
     }
