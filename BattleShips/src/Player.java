@@ -26,7 +26,7 @@ public class Player {
             File f = new File("src/game.data");
             f.createNewFile();
             FileWriter fw = new FileWriter("src/game.data");
-            fw.write(name );
+            fw.write(name);
             fw.close();
         }
         catch (IOException e) {
