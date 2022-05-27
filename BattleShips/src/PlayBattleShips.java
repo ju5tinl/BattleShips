@@ -48,10 +48,11 @@ public class PlayBattleShips {
             b.createOceanMap();
             b.deployPlayerShips();
             b.deployComputerShips();
-            do {
+            while(b.getPlayerShips() != 0 && b.getComputerShips() != 0){
                 b.Battle();
-            } while(b.getPlayerShips() != 0 && b.getComputerShips() != 0);
+            }
             b.gameOver();
+
 
 
         }
