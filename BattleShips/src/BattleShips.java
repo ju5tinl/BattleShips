@@ -1,4 +1,6 @@
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class BattleShips {
@@ -11,8 +13,9 @@ public class BattleShips {
     private int[][] missedGuesses;
     private boolean cheat;
     private int tries;
+    private String name;
 
-    public BattleShips(boolean cheat){
+    public BattleShips(boolean cheat) {
         numRows = 4;
         numCols = 4;
         playerShips = 5;
@@ -24,33 +27,42 @@ public class BattleShips {
         tries = 0;
     }
 
-    public void createOceanMap(){
+    public BattleShips(){
+        numRows = 4;
+        numCols = 4;
+        playerShips = 5;
+        computerShips = 5;
+        grid = new String[numRows][numCols];
+        normalGrid = new String[numRows][numCols];
+        missedGuesses = new int[numRows][numCols];
+        tries = 0;
+    }
+
+    public void createOceanMap() {
         System.out.print("  "); //add space to the top
-        for(int i = 0; i < numCols; i++)
+        for (int i = 0; i < numCols; i++)
             System.out.print(i); //0123
-            System.out.println(); //next line
-            for(int i = 0; i < grid.length; i++) {
+        System.out.println(); //next line
+        for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 grid[i][j] = " ";
                 if (j == 0) { //if it is the beginning
                     System.out.print(i + "|" + grid[i][j]); // 0|
-                }
-                else if (j == grid[i].length - 1) { //if it is right before the end
+                } else if (j == grid[i].length - 1) { //if it is right before the end
                     System.out.print(grid[i][j] + "|" + i); //  |0
-                }
-                else {
+                } else {
                     System.out.print(grid[i][j]); // print out the blanks
                 }
             }
             System.out.println(); //0|    |01|    |12|    |23|    |3  0123 helps skip lines
         }
         System.out.print("  "); // add space to the bottom
-        for(int i = 0; i < numCols; i++) {
+        for (int i = 0; i < numCols; i++) {
             System.out.print(i); //print bottom numbers
         }
     }
 
-    public void deployPlayerShips(){
+    public void deployPlayerShips() {
         Scanner input = new Scanner(System.in);
         System.out.println("\nDeploy your ships:");
         for (int i = 1; i <= playerShips; ) {
@@ -58,19 +70,20 @@ public class BattleShips {
             int x = input.nextInt();
             System.out.print("Enter column for your " + i + " ship: ");
             int y = input.nextInt();
-            if((x >= 0 && x < numRows) && (y >= 0 && y < numCols) && (grid[x][y] == " "))
-            {
+            if ((x >= 0 && x < numRows) && (y >= 0 && y < numCols) && (grid[x][y] == " ")) {
                 grid[x][y] = "@";
                 i++;
             }
-            else if((x >= 0 && x < numRows) && (y >= 0 && y < numCols) && grid[x][y] == "@")
+            else if((x >= 0 && x < numRows) && (y >= 0 && y < numCols) && grid[x][y] == "@") {
                 System.out.println("You can't place two or more ships on the same location");
-            else if((x < 0 || x >= numRows) || (y < 0 || y >= numCols))
+            }
+            else if((x < 0 || x >= numRows) || (y < 0 || y >= numCols)) {
                 System.out.println("You can't place ships outside the " + numRows + " by " + numCols + " grid");
+            }
         }
-        if(!cheat){
-            for(int r = 0; r < grid.length; r++){
-                for(int c = 0; c < grid[0].length; c++){
+        if (!cheat) {
+            for (int r = 0; r < grid.length; r++) {
+                for (int c = 0; c < grid[0].length; c++) {
                     normalGrid[r][c] = grid[r][c];
                 }
             }
@@ -78,9 +91,9 @@ public class BattleShips {
         printOceanMap();
     }
 
-    public void deployComputerShips(){
+    public void deployComputerShips() {
         System.out.println("\nComputer is deploying ships");
-        if(cheat) {
+        if (cheat) {
             for (int i = 1; i <= computerShips; ) {
                 int x = (int) (Math.random() * 10); // random row
                 int y = (int) (Math.random() * 10); // random column
@@ -90,8 +103,7 @@ public class BattleShips {
                     i++;
                 }
             }
-        }
-        else if(!cheat){
+        } else if (!cheat) {
             for (int i = 1; i <= computerShips; ) {
                 int x = (int) (Math.random() * 10);
                 int y = (int) (Math.random() * 10);
@@ -106,7 +118,7 @@ public class BattleShips {
         printOceanMap();
     }
 
-    public void Battle(){
+    public void Battle() {
         playerTurn();
         computerTurn();
         printOceanMap();
@@ -222,44 +234,45 @@ public class BattleShips {
         }
     }
 
-    public void gameOver(){
+    public void gameOver() {
         System.out.println("Your ships: " + playerShips + " | Computer ships: " + computerShips);
-        if(playerShips > 0 && computerShips <= 0){
+        if (playerShips > 0 && computerShips <= 0) {
+            Player p = new Player(name, tries);
+            p.save();
             System.out.println("Hooray! You won the battle :)");
             System.out.println("You won in " + tries + " turns");
             System.out.println("Check the Leaderboard for you name");
-        }
-        else{
+        } else {
             System.out.println("Sorry, you lost the battle :(");
             System.out.println();
         }
     }
 
-    public void printOceanMap(){
-        if(!cheat){
+    public void printOceanMap() {
+        if (!cheat) {
             System.out.println();
             System.out.print("  ");
-            for(int i = 0; i < numCols; i++)
+            for (int i = 0; i < numCols; i++)
                 System.out.print(i);
-                System.out.println();
-            for(int x = 0; x < normalGrid.length; x++) {
+            System.out.println();
+            for (int x = 0; x < normalGrid.length; x++) {
                 System.out.print(x + "|");
-                for (int y = 0; y < normalGrid[x].length; y++){
+                for (int y = 0; y < normalGrid[x].length; y++) {
                     System.out.print(normalGrid[x][y]);
                 }
                 System.out.println("|" + x);
             }
             System.out.print("  ");
-            for(int i = 0; i < numCols; i++)
+            for (int i = 0; i < numCols; i++)
                 System.out.print(i);
-                System.out.println();
+            System.out.println();
         }
-        if(cheat) {
+        if (cheat) {
             System.out.println(); //space on the top
             System.out.print("  "); //space for the top numbers
             for (int i = 0; i < numCols; i++)
                 System.out.print(i); //print the numbers on the top
-                System.out.println(); //01230|@@  |0
+            System.out.println(); //01230|@@  |0
             for (int x = 0; x < grid.length; x++) {
                 System.out.print(x + "|"); // print the 0|
                 for (int y = 0; y < grid[x].length; y++) {
@@ -270,7 +283,7 @@ public class BattleShips {
             System.out.print("  ");
             for (int i = 0; i < numCols; i++)
                 System.out.print(i); //print bottom numbers
-                System.out.println();
+            System.out.println();
         }
     }
 
