@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
@@ -10,21 +9,20 @@ public class BattleShips {
     private int computerShips;
     private String[][] grid;
     private String[][] normalGrid;
-    private int[][] missedGuesses;
     private boolean cheat;
     private int tries;
     private String name;
 
-    public BattleShips(boolean cheat) {
+    public BattleShips(String name, boolean cheat) {
         numRows = 4;
         numCols = 4;
         playerShips = 5;
         computerShips = 5;
         grid = new String[numRows][numCols];
         normalGrid = new String[numRows][numCols];
-        missedGuesses = new int[numRows][numCols];
         this.cheat = cheat;
         tries = 0;
+        this.name = name;
     }
 
     public BattleShips(){
@@ -34,7 +32,6 @@ public class BattleShips {
         computerShips = 5;
         grid = new String[numRows][numCols];
         normalGrid = new String[numRows][numCols];
-        missedGuesses = new int[numRows][numCols];
         tries = 0;
     }
 
@@ -239,9 +236,9 @@ public class BattleShips {
         if (playerShips > 0 && computerShips <= 0) {
             Player p = new Player(name, tries);
             p.save();
-            System.out.println("Hooray! You won the battle :)");
+            System.out.println("Hooray " + name + "! " + "You won the battle :)");
             System.out.println("You won in " + tries + " turns");
-            System.out.println("Check the Leaderboard for you name");
+            System.out.println("Check the Leaderboard for your name");
         } else {
             System.out.println("Sorry, you lost the battle :(");
             System.out.println();
@@ -293,6 +290,55 @@ public class BattleShips {
 
     public int getPlayerShips() {
         return playerShips;
+    }
+
+    public void start() {
+        Scanner s = new Scanner(System.in);
+        String n = "";
+        String mode = "";
+        boolean cheat = false;
+        ArrayList<String> leaderboard = new ArrayList<String>();
+        System.out.println("Welcome to BattleShips");
+        System.out.print("Would you like to (s)how leaderboard or start a (n)ew game? ");
+        String option = s.nextLine();
+        if (option.toLowerCase().equals("s")) {
+            try {
+                File f = new File("src/game.data");
+                Scanner line = new Scanner(f);
+                System.out.println("LeaderBoard");
+                while (line.hasNextLine()) {
+                    String data = line.nextLine();
+                    leaderboard.add(data);
+                }
+                for (int i = 1; i < leaderboard.size() + 1; i++) {
+                    System.out.println(i + ") Admiral " + leaderboard.get(i - 1));
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println("There are no games to show.");
+                System.out.println("Starting new game...");
+                option = "n";
+            }
+        }
+        if (option.toLowerCase().equals("n")) {
+            System.out.print("Hello Admiral what is your name? ");
+            Scanner in = new Scanner(System.in);
+            n = in.nextLine();
+            System.out.print("Hello Admiral " + n + " would you like to receive the information from our spy? (Cheat Mode) ");
+            mode = in.nextLine();
+            if (mode.toLowerCase().equals("yes")) {
+                cheat = true;
+            } else {
+                cheat = false;
+            }
+            BattleShips b = new BattleShips(n,cheat);
+            b.createOceanMap();
+            b.deployPlayerShips();
+            b.deployComputerShips();
+            while (b.getPlayerShips() != 0 && b.getComputerShips() != 0) {
+                b.Battle();
+            }
+            b.gameOver();
+        }
     }
 
 }
