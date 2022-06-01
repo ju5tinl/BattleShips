@@ -284,14 +284,6 @@ public class BattleShips {
         }
     }
 
-    public int getComputerShips() {
-        return computerShips;
-    }
-
-    public int getPlayerShips() {
-        return playerShips;
-    }
-
     public void start() {
         Scanner s = new Scanner(System.in);
         String n = "";
@@ -339,6 +331,14 @@ public class BattleShips {
             }
             b.gameOver();
         }
+    }
+
+    public int getComputerShips() {
+        return computerShips;
+    }
+
+    public int getPlayerShips() {
+        return playerShips;
     }
 
 }
