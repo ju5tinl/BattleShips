@@ -1,19 +1,17 @@
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
 
-
-public class Player {
+public class PlayerData {
     private String name;
     private int attempts;
 
-    public Player(String n, int a){
+    public PlayerData(String n, int a){
         name = n;
         attempts = a;
     }
 
-    public Player(){
+    public PlayerData(){
         name = "";
     }
 

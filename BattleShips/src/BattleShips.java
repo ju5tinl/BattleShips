@@ -234,7 +234,7 @@ public class BattleShips {
     public void gameOver() {
         System.out.println("Your ships: " + playerShips + " | Computer ships: " + computerShips);
         if (playerShips > 0 && computerShips <= 0) {
-            Player p = new Player(name, tries);
+            PlayerData p = new PlayerData(name, tries);
             p.save();
             System.out.println("Hooray " + name + "! " + "You won the battle :)");
             System.out.println("You won in " + tries + " turns");
